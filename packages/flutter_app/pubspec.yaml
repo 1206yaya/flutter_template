@@ -1,0 +1,29 @@
+name: someapp
+description: "A new Flutter project."
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
+version: 1.0.0+1
+environment:
+  sdk: ">=3.4.0 <4.0.0"
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+  flutter_riverpod: ^2.5.1
+  riverpod_annotation: ^2.3.5
+  flutter_hooks: ^0.20.5
+  hooks_riverpod: ^2.5.1
+  freezed: ^2.5.2
+  flutter_launcher_icons: ^0.13.1
+  path_provider: ^2.1.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  riverpod_lint: ^2.3.10
+  custom_lint: ^0.6.4
+  build_runner: ^2.4.10
+  riverpod_generator: ^2.4.0
+  json_serializable: ^6.8.0
+flutter:
+  uses-material-design: true
