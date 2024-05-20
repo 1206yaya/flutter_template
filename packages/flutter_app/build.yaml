@@ -13,17 +13,15 @@ targets:
       freezed:
         generate_for:
           include:
-            - lib/**/entities/*.dart
-            - lib/**/model/*.dart
-      go_router_builder:
-        generate_for:
-          include:
-            - lib/**/app_routes.dart
+            - lib/**/data/*.dart
+      # go_router_builder:
+      #   generate_for:
+      #     include:
+      #       - lib/**/app_routes.dart
       json_serializable:
         generate_for:
           include:
-            - lib/**/entities/*.dart
-            - lib/**/model/*.dart
+            - lib/**/data/*.dart
         options:
           # 例外発生時にCheckedFromJsonExceptionをthrowする
           checked: true
@@ -33,7 +31,8 @@ targets:
       riverpod_generator:
         generate_for:
           include:
-            - "**/*provider.dart"
-            - lib/**/riverpod_example_page/**/*.dart
+            - lib/**/data/*.dart
+            - lib/routing/app_router.dart
+            - lib/environment/src/flavor_provider.dart
         options:
           provider_name_suffix: "Provider" # (default)

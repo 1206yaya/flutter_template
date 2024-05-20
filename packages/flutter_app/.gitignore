@@ -1,3 +1,5 @@
+**/ios/Runner/GoogleService-Info.plist
+**/ios/Flutter/Dart-Defines.xcconfig
 firebase_options.dart
 .fvm/flutter_sdk
 functions/.env
