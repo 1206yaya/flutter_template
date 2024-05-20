@@ -1,0 +1,7 @@
+{
+  "projects": {
+    "default": "someapp-dev-dfa74",
+    "dev": "someapp-dev-dfa74",
+    "prod": "someapp-prod"
+  }
+}
