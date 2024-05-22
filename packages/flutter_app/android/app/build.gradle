@@ -53,7 +53,7 @@ tasks.whenTaskAdded { task ->
     }
 }
 android {
-    namespace = ${dartDefines.namespace}
+    namespace = "${dartDefines.namespace}"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
     sourceSets {

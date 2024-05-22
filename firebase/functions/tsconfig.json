@@ -6,10 +6,16 @@
     "outDir": "lib",
     "sourceMap": true,
     "strict": true,
-    "target": "es2017"
+    "target": "es2017",
+    "baseUrl": "src",
+
+    "paths": {
+      "@/*": ["./*"],
+      "@callable/*": ["callable/*"],
+      "@trigger/*": ["trigger/*"]
+    }
   },
   "compileOnSave": true,
-  "include": [
-    "src"
-  ]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
 }
