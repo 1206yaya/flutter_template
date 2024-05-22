@@ -57,7 +57,7 @@ class AuthRepository {
 GoogleSignIn googleSignIn(GoogleSignInRef ref) {
   return GoogleSignIn(
     scopes: [
-      // 'email',
+      'email',
       // 'https://www.googleapis.com/auth/contacts.readonly',
       // 'https://www.googleapis.com/auth/userinfo.profile',
     ],

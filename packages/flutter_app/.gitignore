@@ -1,3 +1,4 @@
+android/key.properties
 **/ios/Runner/GoogleService-Info.plist
 **/ios/Flutter/Dart-Defines.xcconfig
 firebase_options.dart
