@@ -1,0 +1,12 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "setEnv",
+      "type": "shell",
+      "command": "sh",
+      "args": ["-c", "export VAR1=$(date)"],
+      "problemMatcher": []
+    }
+  ]
+}

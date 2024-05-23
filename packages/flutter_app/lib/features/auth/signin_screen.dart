@@ -85,48 +85,11 @@ class SignInScreen extends ConsumerWidget {
                 vertical: 12,
               ),
             ),
-            const Gap(48),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: consentMessage(context),
-            ),
           ],
         ),
       ),
     );
   }
-}
-
-RichText consentMessage(BuildContext context) {
-  return RichText(
-    textAlign: TextAlign.center,
-    text: TextSpan(
-      style: Theme.of(context).textTheme.bodyMedium,
-      children: [
-        const TextSpan(
-          text: '登録すると',
-        ),
-        TextSpan(
-          text: '利用規約',
-          style: const TextStyle(color: Colors.green),
-          recognizer: TapGestureRecognizer()
-            ..onTap = () => context.goNamed("terms-of-service"),
-        ),
-        const TextSpan(
-          text: 'と',
-        ),
-        TextSpan(
-          text: 'プライバシーポリシー',
-          style: const TextStyle(color: Colors.green),
-          recognizer: TapGestureRecognizer()
-            ..onTap = () => context.goNamed("privacy-policy"),
-        ),
-        const TextSpan(
-          text: 'に同意したものとみなされます',
-        ),
-      ],
-    ),
-  );
 }
 
 Future<UserCredential> signInWithGoogle() async {

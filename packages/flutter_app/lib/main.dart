@@ -1,3 +1,8 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,11 +16,40 @@ import 'environment/src/flavor_provider.dart';
 import 'routing/app_router.dart';
 import 'features/app/data/theme_provider.dart';
 
+Future<void> useEmulator() async {
+  //! エミュレーターとの接続がおかしい時は、再ログインする
+  //* 外部デバイスからエミュレーターに接続するときは、ネットワークを有線ではなく確実にWi-Fiにしておく
+  // ip route get 8.8.8.8 | head -1 | awk '{print $7}'
+  // ipconfig getifaddr en0
+  const defaultHost = "192.168.11.7";
+  const VAR1 = String.fromEnvironment('VAR1');
+  print("defaultHost $defaultHost"); //
+  print("VAR1 $VAR1"); //
+  var configHost = Platform.isAndroid ? '10.0.2.2' : defaultHost;
+  var host = configHost;
+
+  await FirebaseAuth.instance.useAuthEmulator(host, 9099);
+  FirebaseFunctions.instance.useFunctionsEmulator(host, 5001);
+  FirebaseFirestore.instance.settings = Settings(
+      host: '$host:8080', sslEnabled: false, persistenceEnabled: false);
+}
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final flavor = Flavor.values.byName(const String.fromEnvironment('flavor'));
+  const isEmulator = bool.fromEnvironment('IS_EMULATOR');
+  const defaultHost = String.fromEnvironment('HOST');
+  const TOKEN = String.fromEnvironment('TOKEN');
+  print("defaultHost $defaultHost"); //
+  print("TOKEN $TOKEN"); //
+  print("isEmulator $isEmulator"); //
 
   await Firebase.initializeApp(options: firebaseOptionsWithFlavor(flavor));
+
+  if (isEmulator) {
+    await useEmulator();
+  }
+
   final packageInfo = await PackageInfo.fromPlatform();
   runApp(ProviderScope(overrides: [
     flavorProvider.overrideWithValue(flavor),

@@ -19,4 +19,6 @@ enum Flavor {
 
   /// Production.
   prod,
+
+  emulator
 }
