@@ -22,8 +22,6 @@ genicon:
 get: # pub get
 	fvm flutter pub get
 	
-flutter_connect:
-	flutterfire configure --project=${PROJECT_ID}
 
 clean.ios: # rm Podfile.lock Pods
 	flutter clean
@@ -155,6 +153,6 @@ gendsym: # after buildios
 
 showuuid:
 	dwarfdump --uuid build/ios/Debug-iphonesimulator/Runner.app.dSYM
-	
+
 archive:
 	flutter build ipa --release --dart-define-from-file=dart_defines/dev.env
