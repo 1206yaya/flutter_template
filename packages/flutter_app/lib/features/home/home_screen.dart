@@ -3,6 +3,7 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gap/gap.dart';
 
 import '../auth/data/auth_repository.dart';
 
@@ -58,6 +59,31 @@ class HomeScreen extends ConsumerWidget {
                 }
               },
               child: const Text('Update DisplayName From Functions'),
+            ),
+            const Gap(8),
+            ElevatedButton(
+              onPressed: () => throw Exception('This is a general exception'),
+              child: const Text('Throw General Exception'),
+            ),
+            ElevatedButton(
+              onPressed: () =>
+                  throw const FormatException('This is a format exception'),
+              child: const Text('Throw Format Exception'),
+            ),
+            ElevatedButton(
+              onPressed: () => throw StateError('This is a state error'),
+              child: const Text('Throw State Error'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                List<int> list = [];
+                print(list[1]); // ここでRangeErrorが発生します
+              },
+              child: const Text('Throw Range Error'),
+            ),
+            ElevatedButton(
+              onPressed: () => Future.error('This is an asynchronous error'),
+              child: const Text('Throw Async Error'),
             ),
           ],
         ),

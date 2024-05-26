@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -38,13 +40,9 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final flavor = Flavor.values.byName(const String.fromEnvironment('flavor'));
   const isEmulator = bool.fromEnvironment('IS_EMULATOR');
-  const defaultHost = String.fromEnvironment('HOST');
-  const TOKEN = String.fromEnvironment('TOKEN');
-  print("defaultHost $defaultHost"); //
-  print("TOKEN $TOKEN"); //
-  print("isEmulator $isEmulator"); //
-
   await Firebase.initializeApp(options: firebaseOptionsWithFlavor(flavor));
+
+  initializeCrashlytics();
 
   if (isEmulator) {
     await useEmulator();
@@ -72,4 +70,35 @@ class MyApp extends HookConsumerWidget {
       themeMode: ThemeMode.dark,
     );
   }
+}
+
+void initializeCrashlytics() {
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+
+  const fatalError = true;
+
+  // Non-async exceptions
+  FlutterError.onError = (errorDetails) {
+    if (fatalError) {
+      // "Fatal" exceptionの記録
+      FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+      // ignore: dead_code
+    } else {
+      // "Non-fatal" exceptionの記録
+      FirebaseCrashlytics.instance.recordFlutterError(errorDetails);
+    }
+  };
+
+  // Flutterフレームワークで処理されない非同期エラーをキャッチ
+  PlatformDispatcher.instance.onError = (error, stack) {
+    if (fatalError) {
+      // "Fatal" exceptionの記録
+      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+      // ignore: dead_code
+    } else {
+      // "Non-fatal" exceptionの記録
+      FirebaseCrashlytics.instance.recordError(error, stack);
+    }
+    return true;
+  };
 }

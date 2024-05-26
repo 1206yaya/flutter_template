@@ -1,6 +1,7 @@
 
 # include functions/Makefile
 
+PROJECT_ID=
 
 watch: 
 	fvm flutter pub run build_runner build --delete-conflicting-outputs; flutter pub run build_runner watch 
@@ -18,11 +19,6 @@ genintl: # gen-l10n
 genicon:
 	fvm flutter pub run flutter_launcher_icons:main
 
-genkey:
-	fvm flutter pub add firebase_core firebase_auth google_sign_in
-	echo "password: android"
-	keytool -list -v -alias androiddebugkey -keystore ~/.android/debug.keystore
-
 get: # pub get
 	fvm flutter pub get
 	
@@ -30,10 +26,13 @@ flutter_connect:
 	flutterfire configure --project=${PROJECT_ID}
 
 clean.ios: # rm Podfile.lock Pods
-	flutter clean; flutter pub get; cd ios; rm -rf  Podfile.lock ; rm -rf Pods; \
-		pod repo update; pod install; cd ..
+	flutter clean
+	rm -rf ios/Pods
+	rm -rf ios/Podfile.lock
+	flutter pub get
+	pod install --project-directory=ios
 
-
+#=================== Packages ===================
 add.firebase.store:
 	fvm flutter pub add \
 		firebase_core \
@@ -115,6 +114,7 @@ add.util.extra:
 	@echo "flutter:"
 	@echo "\tgenerate: true"
 
+#=================== Run ===================
 
 run:
 	flutter run --dart-define-from-file=dart_defines/dev.env
@@ -146,8 +146,15 @@ run.ios: # シミュレーターを起動する
 start:
 	firebase emulators:start --only auth,firestore,functions --import=seed --inspect-functions
 
-pull_official:
-	svn checkout https://github.com/letsar/flutter_staggered_grid_view/trunk/examples/assets assets/pub_flutter_staggered_grid_view_official_example/
-# svn checkout https://github.com/letsar/flutter_staggered_grid_view/trunk/examples/lib lib/pub_flutter_staggered_grid_view_official_example
-# パターン1 svn checkout https://github.com/flutter/packages/trunk/packages/go_router/example/lib lib/official_example
-# パターン2 svn checkout https://github.com/rrousselGit/flutter_hooks/trunk/packages/flutter_hooks/example/lib lib/official_example
+#=================== Release ===================
+buildios:
+	flutter build ios --dart-define-from-file=dart_defines/dev.env
+
+gendsym: # after buildios
+	ditto -c -k --sequesterRsrc --keepParent build/ios/Debug-iphonesimulator/Runner.app.dSYM Runner.app.dSYM.zip
+
+showuuid:
+	dwarfdump --uuid build/ios/Debug-iphonesimulator/Runner.app.dSYM
+	
+archive:
+	flutter build ipa --release --dart-define-from-file=dart_defines/dev.env
