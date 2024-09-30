@@ -1,7 +1,7 @@
-**/android/app/google-services.json
-android/key.properties
 **/ios/Runner/GoogleService-Info.plist
 **/ios/Flutter/Dart-Defines.xcconfig
+**/android/app/google-services.json
+android/key.properties
 firebase_options.dart
 .fvm/flutter_sdk
 functions/.env
@@ -75,3 +75,10 @@ lib/generated_plugin_registrant.dart
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 
 # End of https://www.toptal.com/developers/gitignore/api/flutter
+# Firebase config files
+lib/firebase_options.dart
+ios/Runner/GoogleService-Info.plist
+ios/firebase_app_id_file.json
+macos/Runner/GoogleService-Info.plist
+macos/firebase_app_id_file.json
+android/app/google-services.json

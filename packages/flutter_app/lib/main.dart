@@ -19,10 +19,6 @@ import 'routing/app_router.dart';
 import 'features/app/data/theme_provider.dart';
 
 Future<void> useEmulator() async {
-  //! エミュレーターとの接続がおかしい時は、再ログインする
-  //* 外部デバイスからエミュレーターに接続するときは、ネットワークを有線ではなく確実にWi-Fiにしておく
-  // ip route get 8.8.8.8 | head -1 | awk '{print $7}'
-  // ipconfig getifaddr en0
   const defaultHost = "192.168.11.7";
   const VAR1 = String.fromEnvironment('VAR1');
   print("defaultHost $defaultHost"); //
@@ -65,7 +61,6 @@ class MyApp extends HookConsumerWidget {
       debugShowCheckedModeBanner: false,
       scaffoldMessengerKey: scaffoldKey,
       routerConfig: goRouter,
-      // /Users/zak/ghq/github.com/rydmike/theme_demo
       theme: ref.watch(appThemeProvider),
       themeMode: ThemeMode.dark,
     );
@@ -77,26 +72,18 @@ void initializeCrashlytics() {
 
   const fatalError = true;
 
-  // Non-async exceptions
   FlutterError.onError = (errorDetails) {
     if (fatalError) {
-      // "Fatal" exceptionの記録
       FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
-      // ignore: dead_code
     } else {
-      // "Non-fatal" exceptionの記録
       FirebaseCrashlytics.instance.recordFlutterError(errorDetails);
     }
   };
 
-  // Flutterフレームワークで処理されない非同期エラーをキャッチ
   PlatformDispatcher.instance.onError = (error, stack) {
     if (fatalError) {
-      // "Fatal" exceptionの記録
       FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-      // ignore: dead_code
     } else {
-      // "Non-fatal" exceptionの記録
       FirebaseCrashlytics.instance.recordError(error, stack);
     }
     return true;
