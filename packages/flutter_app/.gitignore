@@ -1,5 +1,7 @@
 dart_defines/*
 !dart_defines/template.env
+lib/environment/src/*
+
 **/ios/Runner/GoogleService-Info.plist
 **/ios/Flutter/Dart-Defines.xcconfig
 **/android/app/google-services.json
