@@ -2,20 +2,21 @@
   "compilerOptions": {
     "module": "commonjs",
     "noImplicitReturns": true,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "outDir": "lib",
     "sourceMap": true,
     "strict": true,
     "target": "es2017",
     "baseUrl": "src",
-
     "paths": {
       "@/*": ["./*"],
       "@callable/*": ["callable/*"],
       "@trigger/*": ["trigger/*"]
-    }
+    },
+    "resolveJsonModule": true,
+    "esModuleInterop": true
   },
   "compileOnSave": true,
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "tests/**/*", "jest.config.js"],
   "exclude": ["node_modules"]
 }

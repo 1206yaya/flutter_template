@@ -8,7 +8,7 @@
  */
 import "./fixTsPaths";
 import { auth } from "firebase-functions/v1";
-import { onCall } from "firebase-functions/v2/https";
+import { onCall, onRequest } from "firebase-functions/v2/https";
 
 import { onUserCreatedHandler } from "@trigger/on-user-created";
 import { updateUserHandler } from "@callable/update-user";
@@ -18,3 +18,7 @@ export const onUserCreated = auth
   .onCreate(async (user) => onUserCreatedHandler(user));
 
 export const updateUser = onCall(updateUserHandler);
+
+export const simpleHttp = onRequest((request, response) => {
+  response.send(`text: ${request.query.text}`);
+});

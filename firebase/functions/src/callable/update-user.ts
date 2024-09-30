@@ -1,6 +1,6 @@
 import { CallableRequest, HttpsError } from "firebase-functions/v2/https";
 import { logger } from "firebase-functions";
-import { User } from "@/models/user";
+import { User, updateUser } from "@/models/user";
 
 interface Data {
   uid: string;
@@ -17,7 +17,7 @@ export async function updateUserHandler(
   const { uid, displayName } = req.data;
   try {
     logger.debug(`Start Update User uid: ${uid}`);
-    await User.update(uid, { displayName: displayName });
+    await updateUser(uid, { displayName: displayName });
   } catch (error: any) {
     logger.error(`Error updating user uid: ${uid}`, error);
     throw new HttpsError("internal", `Error updating user with uid: ${uid}`);
